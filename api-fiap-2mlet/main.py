@@ -4,12 +4,15 @@ import requests  # Importa a biblioteca requests para fazer solicitações HTTP
 import shutil  # Importa a biblioteca shutil para operações de arquivos
 import logging  # Importa a biblioteca de logging para registrar informações e erros
 from datetime import datetime  # Importa datetime para manipular datas e horas
+from pathlib import Path
 
 from utils.find_links import find_links_at_level_one, find_links_at_level_two  # Importa funções de extração de links
 from utils.scraping import scrap_website  # Importa função de scraping de sites
 
 # Inicializa uma instância do FastAPI
 app = FastAPI()
+
+files_directory = Path("C:/PROJECTS/api-fiap-2mlet/files")
 
 # Configura o logging para registrar informações e erros
 logging.basicConfig(level=logging.INFO)
@@ -153,3 +156,25 @@ async def download_file(link: str = Query(..., description="URL do link para o a
         # Registra e lança uma exceção HTTP 500 se ocorrer um erro durante o processamento do arquivo
         logging.error(f"Erro durante o processamento do arquivo: {e}")
         raise HTTPException(status_code=500, detail="Erro durante o processamento do arquivo")
+
+@app.get("/latest-file-content")
+async def read_latest_file_content():
+    try:
+        # Lista todos os arquivos no diretório de arquivos
+        files = list(files_directory.glob("*"))
+
+        if not files:
+            raise HTTPException(status_code=404, detail="Nenhum arquivo encontrado na pasta")
+
+        # Encontra o arquivo mais recente com base no datetime
+        latest_file = max(files, key=lambda f: f.stat().st_mtime)
+
+        # Lê o conteúdo do arquivo com a codificação 'latin1'
+        with open(latest_file, "r", encoding="latin1") as file:
+            file_content = file.read()
+
+        return {"file_name": latest_file.name, "content": file_content}
+
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
