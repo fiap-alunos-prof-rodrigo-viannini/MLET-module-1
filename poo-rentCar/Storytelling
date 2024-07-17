@@ -1,0 +1,27 @@
+# Recepção do Cliente:
+
+- Ao entrar na agência, o cliente é saudado por um atendente simpático que apresenta as opções disponíveis: carros, motos e caminhões.
+
+# Escolhendo o Veículo:
+
+- O cliente está interessado em saber mais sobre os veículos. O atendente utiliza um sistema que mostra detalhes de cada veículo, incluindo marca, modelo, ano e preço por dia.
+- Primeiro, ele vê um carro Toyota Corolla, um modelo de quatro portas perfeito para viagens confortáveis.
+- Em seguida, uma moto Honda CB500, ideal para quem deseja agilidade no trânsito.
+- Finalmente, um caminhão Volvo FH, uma opção robusta para transporte de cargas pesadas.
+
+# Processo de Aluguel:
+
+- O cliente decide alugar o carro para uma viagem de fim de semana.
+- O atendente verifica a disponibilidade do veículo no sistema e conclui o aluguel.
+- Após o uso, o cliente devolve o veículo e o sistema marca o carro como disponível novamente, pronto para o próximo cliente.
+
+# POO
+
+Abstração: Vehicle é uma abstração de um veículo genérico.
+
+Encapsulamento: Atributos de Vehicle são protegidos e acessados via métodos públicos.
+
+Herança: Car, Motorcycle e Truck herdam de Vehicle e adicionam funcionalidades específicas.
+
+Polimorfismo: O método display_info é implementado de maneira diferente em cada subclasse, mas pode ser chamado de forma
+uniforme.
